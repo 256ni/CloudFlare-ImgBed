@@ -1,5 +1,6 @@
 name = "cloudflare-imgbed"
-compatibility_date = "2026-03-10"
+main = "_worker.js"
+compatibility_date = "2024-07-24"
 
 [vars]
 TG_BOT_TOKEN = "7922566060:AAFOEzFEQ_ikTdT2JmglP62JC0DkaCxwqME"
@@ -10,3 +11,6 @@ BASIC_PASS = "dokidoki.su"
 [[kv_namespaces]]
 binding = "img_url"
 id = "d0c5138e129c4516b4c6c2c7bfa260b9"
+
+[assets]
+directory = "."
