@@ -1,11 +1,11 @@
-name: Build Worker
+name: Deploy to Cloudflare Workers
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,8 +20,8 @@ jobs:
       - name: Build functions
         run: npx wrangler pages functions build --outdir=dist-worker
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: worker-script
-          path: dist-worker/
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy dist-worker/index.js --name cloudflare-imgbed --compatibility-date 2024-07-24
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
