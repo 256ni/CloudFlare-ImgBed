@@ -9,11 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
-      - run: npx wrangler deploy
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build functions into worker script
+        run: npx wrangler pages functions build --outfile=_worker.js
+
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy _worker.js --name cloudflare-imgbed --compatibility-date 2024-07-24
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
