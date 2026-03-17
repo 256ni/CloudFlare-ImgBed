@@ -21,7 +21,7 @@ jobs:
         run: npx wrangler pages functions build --outdir=dist-worker
 
       - name: Deploy to Cloudflare Workers
-        run: npx wrangler deploy dist-worker/index.js --name cloudflare-imgbed --compatibility-date 2024-07-24
+        run: npx wrangler deploy dist-worker/index.js --name cloudflare-imgbed --compatibility-date 2024-07-24 --assets .
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
