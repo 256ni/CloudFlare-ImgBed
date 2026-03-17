@@ -20,8 +20,21 @@ jobs:
       - name: Build functions
         run: npx wrangler pages functions build --outdir=dist-worker
 
+      - name: Collect static assets
+        run: |
+          mkdir -p dist-assets
+          cp index.html dist-assets/ 2>/dev/null || true
+          cp index.html.gz dist-assets/ 2>/dev/null || true
+          cp -r css dist-assets/ 2>/dev/null || true
+          cp -r js dist-assets/ 2>/dev/null || true
+          cp -r img dist-assets/ 2>/dev/null || true
+          cp -r fonts dist-assets/ 2>/dev/null || true
+          cp -r static dist-assets/ 2>/dev/null || true
+          echo "Static assets collected:"
+          ls dist-assets/
+
       - name: Deploy to Cloudflare Workers
-        run: npx wrangler deploy dist-worker/index.js --name cloudflare-imgbed --compatibility-date 2024-07-24 --assets .
+        run: npx wrangler deploy dist-worker/index.js --name cloudflare-imgbed --compatibility-date 2024-07-24 --assets dist-assets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
